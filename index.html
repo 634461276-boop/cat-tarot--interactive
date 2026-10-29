@@ -3,60 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Low-Poly Cat Tarot | 猫咪低多边形塔罗</title>
+  <title>RETRO 3D CAT TAROT</title>
   <link rel="stylesheet" href="style.css">
+  <!-- 引入 Three.js 引擎 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🐱 喵境低多边形塔罗 🔮</h1>
-      <p class="subtitle">闭上眼默念困惑，抽取今日的猫咪神启</p>
+  <!-- 复古 CRT 屏幕扫描线及暗角光效叠层 -->
+  <div class="crt-overlay"></div>
+
+  <!-- 3D 渲染画布容器 -->
+  <div id="webgl-container"></div>
+
+  <!-- 交互 UI 悬浮层 -->
+  <div class="ui-layer">
+    <header class="retro-header">
+      <h1 class="pixel-text">★ CAT TAROT 2000 ★</h1>
+      <p class="pixel-sub">PRESS [DRAW] TO REVEAL DESTINY</p>
     </header>
 
-    <!-- 输入区域：满足输入/反馈循环要求 -->
-    <div class="input-section">
-      <input type="text" id="questionInput" placeholder="输入你想占卜的问题（选填）..." maxlength="50">
-      <button id="drawBtn" class="btn">抽取指引</button>
-      <button id="resetBtn" class="btn secondary" disabled>重置牌阵</button>
+    <div class="controls">
+      <input type="text" id="wishInput" class="pixel-input" placeholder="ENTER YOUR QUESTION..." maxlength="30" />
+      <div class="btn-group">
+        <button id="drawBtn" class="pixel-btn">DRAW CARD</button>
+        <button id="resetBtn" class="pixel-btn secondary" disabled>RESET</button>
+      </div>
     </div>
-    
-    <div id="statusMessage" class="status-msg">点击上方按钮或下方卡牌翻开神启</div>
 
-    <!-- 核心卡牌展示区 -->
-    <main class="tarot-stage">
-      <div class="card-container" id="tarotCard">
-        <div class="card-inner">
-          <!-- 卡牌背面 -->
-          <div class="card-face card-back">
-            <div class="card-pattern">
-              <span class="poly-symbol">✦</span>
-              <p>CAT TAROT</p>
-            </div>
-          </div>
-          <!-- 卡牌正面 -->
-          <div class="card-face card-front">
-            <div class="card-image-box">
-              <img id="cardImg" src="" alt="Tarot Card">
-            </div>
-            <div class="card-details">
-              <h2 id="cardTitle">牌名</h2>
-              <div class="card-tags">
-                <span id="cardType">大阿卡纳</span>
-                <span id="cardOrientation">正位</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- 牌意解读反馈面板 -->
-    <section class="reading-result" id="readingResult" aria-live="polite">
-      <div class="result-header">
-        <h3 id="resultName">等待抽牌...</h3>
-      </div>
-      <p id="resultAdvice" class="advice-text">静心凝神，宇宙与小猫正注视着你。</p>
-    </section>
+    <!-- 牌意显示面板 -->
+    <div id="readingBox" class="reading-box hidden">
+      <div class="badge" id="cardTag">THE LOVERS (正位)</div>
+      <p id="cardDesc" class="reading-content">恶魔与天使相拥，极性统一，羁绊诞生。</p>
+    </div>
   </div>
 
   <script src="app.js"></script>
