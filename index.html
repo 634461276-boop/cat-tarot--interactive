@@ -19,22 +19,23 @@
   <div class="ui-layer">
     <header class="retro-header">
       <h1 class="pixel-text">★ CAT TAROT 2000 ★</h1>
-      <p class="pixel-sub">PRESS [DRAW] TO REVEAL DESTINY</p>
+      <p id="subPrompt" class="pixel-sub">◀ DRAG TO SPREAD CARDS & PICK ONE ▶</p>
     </header>
 
-    <div class="controls">
-      <input type="text" id="wishInput" class="pixel-input" placeholder="ENTER YOUR QUESTION..." maxlength="30" />
-      <div class="btn-group">
-        <button id="drawBtn" class="pixel-btn">DRAW CARD</button>
-        <button id="resetBtn" class="pixel-btn secondary" disabled>RESET</button>
-      </div>
+    <!-- 牌意解读弹出框 -->
+    <div id="readingBox" class="reading-box hidden">
+      <div id="cardTag" class="card-tag">VI - THE LOVERS</div>
+      <p id="cardDesc" class="card-desc">解读内容正在生成...</p>
     </div>
 
-    <!-- 牌意显示面板 -->
-    <div id="readingBox" class="reading-box hidden">
-      <div class="badge" id="cardTag">THE LOVERS (正位)</div>
-      <p id="cardDesc" class="reading-content">恶魔与天使相拥，极性统一，羁绊诞生。</p>
-    </div>
+    <!-- 交互控件区 -->
+    <footer class="controls">
+      <input type="text" id="questionInput" class="pixel-input" placeholder="输入心中困惑 / 今日状态..." value="今日状态？" />
+      <div class="btn-group">
+        <button id="drawBtn" class="pixel-btn btn-draw" disabled>DRAW CARD</button>
+        <button id="resetBtn" class="pixel-btn btn-reset" disabled>RESET</button>
+      </div>
+    </footer>
   </div>
 
   <script src="app.js"></script>
