@@ -61,3 +61,4 @@ Because the application utilizes Three.js to load external image textures (`asse
    - Card selection relies entirely on client-side pseudo-random number generation (Math.random()). It currently lacks advanced backend card-deck shuffling algorithms, such as the Fisher-Yates shuffle with state persistence or cooldown exclusion against immediate card repetition.
 5. **Fixed Pixel Buffer Scaling on Extreme Viewports**:
    - The retro PS1 low-poly visual aesthetic is achieved by downsampling the 3D WebGL render target to a fixed resolution (LOW_RES_WIDTH = 380px) followed by nearest-neighbor upscaling. On ultra-wide monitors or rotated vertical mobile screens, the aspect ratio calculation may cause the letterbox framing to vary slightly.
+
