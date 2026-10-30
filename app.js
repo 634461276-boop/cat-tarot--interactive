@@ -307,12 +307,15 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 // ==========================================
-// ♫ 音频合成模块 (Web Audio API - PS1/Y2K 怀旧神秘音效)
+// ♫ 音频模块 (真实 BGM 音频 assets/bgm.m4a + 8-bit 点击音效)
 // ==========================================
 let audioCtx = null;
+
+// 1. 初始化背景音乐对象 (调用左侧 assets/bgm.m4a)
+const bgmAudio = new Audio('assets/bgm.m4a');
+bgmAudio.loop = true;      // 开启循环播放
+bgmAudio.volume = 0.5;    // 设置合适音量 (0.0 ~ 1.0)
 let isBgmPlaying = false;
-let bgmOscillators = [];
-let bgmGain = null;
 
 function initAudio() {
   if (!audioCtx) {
@@ -324,17 +327,15 @@ function initAudio() {
   }
 }
 
-// 1. 清脆清澈的按键音效 (8-bit High Blip)
+// 2. 清脆按键音效 (8-bit High Blip)
 function playClickSound() {
-  if (!audioCtx) initAudio();
+  initAudio();
   const now = audioCtx.currentTime;
-
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
-  // 使用三角波与快速高音滑落，制造晶莹清脆的手感
   osc.type = 'triangle';
-  osc.frequency.setValueAtTime(880, now); // A5 高音
+  osc.frequency.setValueAtTime(880, now);
   osc.frequency.exponentialRampToValueAtTime(1760, now + 0.04);
   osc.frequency.exponentialRampToValueAtTime(440, now + 0.08);
 
@@ -348,19 +349,16 @@ function playClickSound() {
   osc.stop(now + 0.1);
 }
 
-// 2. 卡牌翻转神秘升华音效 (Card Flip Shimmer)
+// 3. 卡牌翻转音效 (Card Flip Shimmer)
 function playFlipSound() {
-  if (!audioCtx) initAudio();
+  initAudio();
   const now = audioCtx.currentTime;
-
-  // 双音轨调谐，模拟神秘共鸣
   [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     
     osc.type = 'sine';
     osc.frequency.setValueAtTime(freq, now + idx * 0.06);
-    
     gain.gain.setValueAtTime(0, now + idx * 0.06);
     gain.gain.linearRampToValueAtTime(0.1, now + idx * 0.06 + 0.05);
     gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.4);
@@ -373,80 +371,39 @@ function playFlipSound() {
   });
 }
 
-// 3. 空灵怀旧背景铺底音乐 (Ambient Cosmic Pad - 循环神秘微光)
-function startMysticBGM() {
-  initAudio();
-  if (isBgmPlaying) return;
-  isBgmPlaying = true;
-
-  bgmGain = audioCtx.createGain();
-  bgmGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-  bgmGain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 3); // 柔和渐入
-  bgmGain.connect(audioCtx.destination);
-
-  // 构造复古神秘和弦根音 (Dm9 / 宇宙空灵层叠)
-  const baseFreqs = [146.83, 220.00, 261.63, 329.63]; // D3, A3, C4, E4
-
-  bgmOscillators = baseFreqs.map(freq => {
-    const osc = audioCtx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-    // 增加轻微 LFO 颤音震荡，制造复古磁带/CRT 波动感
-    const lfo = audioCtx.createOscillator();
-    const lfoGain = audioCtx.createGain();
-    lfo.frequency.value = 0.2 + Math.random() * 0.2;
-    lfoGain.gain.value = 2.5;
-    lfo.connect(osc.frequency);
-    lfo.start();
-
-    osc.connect(bgmGain);
-    osc.start();
-    return osc;
-  });
-}
-
-function stopMysticBGM() {
-  if (!isBgmPlaying || !bgmGain) return;
-  bgmGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
-  setTimeout(() => {
-    bgmOscillators.forEach(osc => {
-      try { osc.stop(); } catch (e) {}
-    });
-    bgmOscillators = [];
-    isBgmPlaying = false;
-  }, 1600);
-}
-
-// 绑定 BGM 按钮
+// 4. BGM 开关控制
 const soundToggleBtn = document.getElementById('soundToggleBtn');
 if (soundToggleBtn) {
   soundToggleBtn.addEventListener('click', () => {
-    initAudio();
     playClickSound();
     if (!isBgmPlaying) {
-      startMysticBGM();
-      soundToggleBtn.innerText = '♫ BGM: ON';
-      soundToggleBtn.classList.add('playing');
+      bgmAudio.play().then(() => {
+        isBgmPlaying = true;
+        soundToggleBtn.innerText = '♫ BGM: ON';
+        soundToggleBtn.classList.add('playing');
+      }).catch(err => {
+        console.warn('播放被浏览器阻止，需用户主动触发交互:', err);
+      });
     } else {
-      stopMysticBGM();
+      bgmAudio.pause();
+      isBgmPlaying = false;
       soundToggleBtn.innerText = '♫ BGM: OFF';
       soundToggleBtn.classList.remove('playing');
     }
   });
 }
 
-// 给现有的按键交互追加音效触发
+// 绑定抽卡和重置音效
 drawBtn.addEventListener('click', () => {
   playClickSound();
-  playFlipSound(); // 抽卡时同步播放神秘翻转和弦
+  playFlipSound();
 });
 
 resetBtn.addEventListener('click', () => {
   playClickSound();
 });
 
-// 选牌时也发出清脆点击反馈
+// 选牌点击音效
 const originalPickCard = pickCard;
 pickCard = function(pickedMesh) {
   playClickSound();
