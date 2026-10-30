@@ -42,4 +42,10 @@ This project explores the intersection between **digital nostalgia** and **heali
 
 ---
 
-#
+## How to Run Locally
+
+Because the application utilizes Three.js to load external image textures (`assets/*.jpg`) and audio assets (`assets/bgm.m4a`), modern web browsers enforce Cross-Origin Resource Sharing (CORS) security restrictions when loading local files directly via `file://`. **Do not open `index.html` via double-click directly**.
+
+---
+
+## Known Limitations
