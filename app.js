@@ -212,7 +212,7 @@ function pickCard(pickedMesh) {
   cardMeshes.forEach(mesh => {
     if (mesh === pickedMesh) {
       mesh.userData.targetX = 0;
-      mesh.userData.targetY = 0;
+      mesh.userData.targetY = 0.6;
       mesh.userData.targetRotZ = 0;
       mesh.userData.targetRotY = Math.PI;
       mesh.position.z = 0.5;
