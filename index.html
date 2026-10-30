@@ -15,12 +15,15 @@
   <!-- 3D 渲染画布容器 -->
   <div id="webgl-container"></div>
 
-  <!-- 交互 UI 悬浮层 -->
-  <div class="ui-layer">
-    <header class="retro-header">
-      <h1 class="pixel-text">★ CAT TAROT 2000 ★</h1>
-      <p id="subPrompt" class="pixel-sub">◀ DRAG TO SPREAD CARDS & PICK ONE ▶</p>
-    </header>
+ <!-- 交互 UI 悬浮层 -->
+    <div class="ui-layer">
+      <!-- 顶部音频开关 -->
+      <button id="soundToggleBtn" class="pixel-sound-btn">♫ BGM: OFF</button>
+
+      <header class="retro-header">
+        <h1 class="pixel-text">★ CAT TAROT 2000 ★</h1>
+        <p id="subPrompt" class="pixel-sub">◀ DRAG TO SPREAD CARDS & PICK ONE ▶</p>
+      </header>
 
     <!-- 牌意解读弹出框 -->
     <div id="readingBox" class="reading-box hidden">
