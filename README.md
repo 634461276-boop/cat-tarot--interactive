@@ -20,3 +20,26 @@ This project explores the intersection between **digital nostalgia** and **heali
 * **Creative Technologists & Web Developers**: Designers and students interested in Three.js WebGL rendering, custom downsampled shaders, and interactive web mechanics.
 
 ---
+
+## Key Interactions & Features
+
+1. **Accordion Fan Spread & Horizontal Swipe**:
+   - The session initiates with a 7-card deck arranged in a three-dimensional accordion fan spread.
+   - **Pointer Drag / Touch Swipe**: Click and drag horizontally across the screen to glide through the deck with smooth linear interpolation (Lerp).
+   - **Hover Feedback**: Hovering the cursor over individual cards elevates them upward with a gentle float effect.
+2. **Card Picking & Centering**:
+   - Clicking any desired card plays a crisp **8-bit audio blip**, causes all unselected cards to retreat off-screen, and slides the selected card to the upper-center of the viewport.
+   - The `DRAW CARD` button illuminates with a pulsing ready-state animation.
+3. **Inquiry Input, Flip Animation & Audio Feedback**:
+   - Users can type their personal inquiry or query focus (e.g., *"Today's Energy?"*, *"Creative Direction"*) into the retro text input field.
+   - Pressing `DRAW CARD` triggers a physical 180° Y-axis flip animation accompanied by a **synthesized mystic shimmer chord**, revealing one of the four handcrafted Major Arcana card faces (The Lovers, The Fool, The Magician, or The Moon).
+   - The reading panel appears cleanly beneath the card without obscuring the artwork.
+4. **Retro Sound System (BGM & Procedural SFX)**:
+   - **Interactive BGM Toggle**: A retro `♫ BGM: OFF / ON` control situated at the top-right corner manages ambient background playback (`assets/bgm.m4a`), compliant with modern browser autoplay policies.
+   - **Procedural Sound FX**: Built-in Web Audio API synthesizers deliver responsive 8-bit blips on button/card interactions and harmonic arpeggios upon card flips without latency.
+5. **Interactive Reset Loop**:
+   - Clicking `RESET` plays a tactile click sound, flips the card back to its gilded pixel-heart back, resets the selection state, and restores the fanned-out deck for repeated readings.
+
+---
+
+#
