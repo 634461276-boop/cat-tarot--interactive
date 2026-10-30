@@ -1,55 +1,63 @@
-// --- 数据与卡牌配置 ---
+// --- 1. 卡牌数据配置 ---
 const CARDS_DATA = [
   {
     id: 'lovers',
-    name: '06 - THE LOVERS (恋人)',
-    desc: '红恶魔与蓝天使同谐共生。爱跨越正邪极性，接纳彼此的尖锐与温柔。',
-    frontImage: 'assets/cat_lovers.png' // 刚才你上传的那张双猫图片
+    name: 'VI - THE LOVERS (恋人)',
+    desc: '红恶魔与蓝天使同谐共生。爱跨越极性，接纳彼此的尖锐与温柔。',
+    frontImage: 'assets/cat_lovers.jpg'
   },
   {
     id: 'fool',
-    name: '00 - THE FOOL (愚者)',
-    desc: '带上小鱼干与三叉戟，无所畏惧迈入未知的数码虚空。',
-    frontImage: 'assets/cat_lovers.png'
+    name: '0 - THE FOOL (愚者)',
+    desc: '背对悬崖跃向星空与红蝶。纯真无畏的初心将指引你开启全新篇章。',
+    frontImage: 'assets/cat_fool.jpg'
   },
   {
-    id: 'star',
-    name: '17 - THE STAR (星星)',
-    desc: '多边形星芒照耀着深夜的灵感，光芒指引平静心境。',
-    frontImage: 'assets/cat_lovers.png'
+    id: 'magician',
+    name: 'I - THE MAGICIAN (魔术师)',
+    desc: '头顶无限符号，权杖指引万物。专注与创造力兼备，行动的最佳时刻已至。',
+    frontImage: 'assets/cat_magician.jpg'
+  },
+  {
+    id: 'moon',
+    name: 'XVIII - THE MOON (月亮)',
+    desc: '猫面弯月倒映在深邃池塘中。潜意识与梦境正在共鸣，跟随直觉破除迷惘。',
+    frontImage: 'assets/cat_moon.jpg'
   }
 ];
 
-// --- 像素降采样参数配置 (模拟 PS1 分辨率) ---
+// --- 2. 模拟 PS1 / Y2K 低保真像素降采样 ---
 const LOW_RES_WIDTH = 360;
 const LOW_RES_HEIGHT = Math.round(LOW_RES_WIDTH * (window.innerHeight / window.innerWidth));
 
-// 1. 初始化场景与相机
+// 初始化场景与相机
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1259);
+scene.background = new THREE.Color(0x0f0b29); // 配合卡牌夜空色调
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 0, 7.5);
+camera.position.set(0, 0, 7.2);
 
-// 2. 降采样渲染器 (Pixel Downsampling)
+// 降采样像素渲染器
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
 renderer.setSize(LOW_RES_WIDTH, LOW_RES_HEIGHT, false);
 renderer.setPixelRatio(1);
 document.getElementById('webgl-container').appendChild(renderer.domElement);
 
-// 3. 灯光配置
-const ambientLight = new THREE.AmbientLight(0xb499ff, 1.2); // 淡紫环境光
+// --- 3. 光照与氛围 ---
+const ambientLight = new THREE.AmbientLight(0xcfd8dc, 1.4); // 柔和冷白环境光
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xfff5e6, 2.5, 20); // 暖白点光源产生多边形折射高光
-pointLight.position.set(3, 4, 5);
+// 暖金点光源（衬托金色边框的折面高光）
+const pointLight = new THREE.PointLight(0xffdf80, 2.2, 20);
+pointLight.position.set(3, 4, 4);
 scene.add(pointLight);
 
-const cyanLight = new THREE.PointLight(0x00ffff, 1.5, 15);
-cyanLight.position.set(-4, -2, 3);
-scene.add(cyanLight);
+// 辅助青蓝补光
+const blueLight = new THREE.PointLight(0x00c8ff, 1.2, 15);
+blueLight.position.set(-4, -2, 3);
+scene.add(blueLight);
 
-// 4. 背景：16 角星芒多边形（Starburst）
+// --- 4. 背景：旋转 16 角星芒 ---
 function createStarburst() {
   const points = [];
   const spikes = 16;
@@ -62,7 +70,7 @@ function createStarburst() {
   }
   const shape = new THREE.Shape(points);
   const geom = new THREE.ShapeGeometry(shape);
-  const mat = new THREE.MeshBasicMaterial({ color: 0x82b4ff, side: THREE.DoubleSide });
+  const mat = new THREE.MeshBasicMaterial({ color: 0x1d1a4d, side: THREE.DoubleSide });
   const mesh = new THREE.Mesh(geom, mat);
   mesh.position.z = -1.2;
   return mesh;
@@ -70,74 +78,58 @@ function createStarburst() {
 const starburst = createStarburst();
 scene.add(starburst);
 
-// 5. 几何体细分与折面扰动
+// --- 5. 几何体细分与多面体卡牌构建 ---
 const textureLoader = new THREE.TextureLoader();
 function loadPixelTexture(url) {
   const tex = textureLoader.load(url);
-  tex.magFilter = THREE.NearestFilter; // 纹理保持像素颗粒不模糊
+  tex.magFilter = THREE.NearestFilter; // 保持像素颗粒感，不发生羽化模糊
   tex.minFilter = THREE.NearestFilter;
   return tex;
 }
 
-// 细分薄立方体
+// 塔罗牌几何体：宽 2.2, 高 3.4, 厚 0.08，带面细分
 const cardGeo = new THREE.BoxGeometry(2.2, 3.4, 0.08, 6, 8, 2);
 
-// 顶点微扰动制造多边形反光刻面
+// 对几何体微调顶点制造硬棱角折面反光
 const posAttr = cardGeo.attributes.position;
 for (let i = 0; i < posAttr.count; i++) {
   const z = posAttr.getZ(i);
   if (Math.abs(z) > 0.02) {
-    posAttr.setZ(i, z + (Math.random() - 0.5) * 0.035);
+    posAttr.setZ(i, z + (Math.random() - 0.5) * 0.03);
   }
 }
 cardGeo.computeVertexNormals();
 
+// 金色卡牌侧切面材质
 const sideMat = new THREE.MeshStandardMaterial({
-  color: 0xff3b7a,
+  color: 0xd4a017,
   roughness: 0.35,
-  metalness: 0.1,
+  metalness: 0.6,
   flatShading: true
 });
 
-// 生成一张程序化的几何像素卡背（不需要外部贴图）
-function createBackCanvas() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 128;
-  canvas.height = 192;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#0f0529';
-  ctx.fillRect(0, 0, 128, 192);
-  ctx.strokeStyle = '#00ffff';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(8, 8, 112, 176);
-  ctx.fillStyle = '#ff3e6c';
-  ctx.beginPath();
-  ctx.arc(64, 96, 28, 0, Math.PI * 2);
-  ctx.fill();
-  return canvas;
-}
-const backTexture = new THREE.CanvasTexture(createBackCanvas());
-backTexture.magFilter = THREE.NearestFilter;
-
+// 加载你设计的卡背图片
+const backTexture = loadPixelTexture('assets/card_back.jpg');
 const backMat = new THREE.MeshStandardMaterial({
   map: backTexture,
   roughness: 0.4,
   flatShading: true
 });
 
+// 默认未抽牌时的正面材质
 let frontMat = new THREE.MeshStandardMaterial({
-  color: 0x22223b,
+  color: 0x1a1a2e,
   roughness: 0.4,
   flatShading: true
 });
 
-// 立方体材质排列：[右, 左, 顶, 底, 正面, 背面]
+// 立方体材质分配：[右, 左, 顶, 底, 正面, 背面]
 const materials = [sideMat, sideMat, sideMat, sideMat, frontMat, backMat];
 const cardMesh = new THREE.Mesh(cardGeo, materials);
-cardMesh.rotation.y = Math.PI; // 默认卡背朝向玩家
+cardMesh.rotation.y = Math.PI; // 初始状态背面朝向玩家
 scene.add(cardMesh);
 
-// 6. 交互状态管理
+// --- 6. 交互状态逻辑 ---
 let isFlipping = false;
 let isFaceUp = false;
 let targetRotationY = Math.PI;
@@ -153,8 +145,10 @@ function drawCard() {
   isFlipping = true;
   drawBtn.disabled = true;
 
+  // 随机抽取一张牌
   const randomCard = CARDS_DATA[Math.floor(Math.random() * CARDS_DATA.length)];
 
+  // 加载该牌的高清多边形纹理
   const newFrontTex = loadPixelTexture(randomCard.frontImage);
   materials[4] = new THREE.MeshStandardMaterial({
     map: newFrontTex,
@@ -163,8 +157,10 @@ function drawCard() {
   });
   cardMesh.material = materials;
 
-  targetRotationY = 0; // 翻向正面
+  // 翻转目标设定为正面朝向（0弧度）
+  targetRotationY = 0;
 
+  // 延时呈现文字反馈
   setTimeout(() => {
     cardTag.innerText = randomCard.name;
     cardDesc.innerText = randomCard.desc;
@@ -172,7 +168,7 @@ function drawCard() {
     resetBtn.disabled = false;
     isFlipping = false;
     isFaceUp = true;
-  }, 1200);
+  }, 1100);
 }
 
 function resetDeck() {
@@ -181,36 +177,51 @@ function resetDeck() {
   resetBtn.disabled = true;
   readingBox.classList.add('hidden');
 
-  targetRotationY = Math.PI; // 翻回背面
+  // 翻转回背面（Math.PI 弧度）
+  targetRotationY = Math.PI;
 
   setTimeout(() => {
     isFlipping = false;
     isFaceUp = false;
     drawBtn.disabled = false;
-  }, 1000);
+  }, 900);
 }
 
+// 绑定按钮事件
 drawBtn.addEventListener('click', drawCard);
 resetBtn.addEventListener('click', resetDeck);
 
-// 7. 动画主循环
-let clock = new THREE.Clock();
+// 点击 3D 卡牌本身也能触发翻牌（提升自然交互体验）
+window.addEventListener('click', (event) => {
+  // 排除点击输入框和按钮的误触
+  if (event.target.tagName === 'BUTTON' || event.target.tagName === 'INPUT') return;
+  if (!isFaceUp && !isFlipping) {
+    drawCard();
+  }
+});
+
+// --- 7. 动画主循环 ---
+const clock = new THREE.Clock();
 
 function animate() {
   requestAnimationFrame(animate);
   const elapsedTime = clock.getElapsedTime();
 
-  starburst.rotation.z = elapsedTime * 0.15;
-  cardMesh.position.y = Math.sin(elapsedTime * 2) * 0.08;
-  cardMesh.rotation.x = Math.sin(elapsedTime * 1.5) * 0.05;
+  // 背景星芒缓慢旋转
+  starburst.rotation.z = elapsedTime * 0.12;
 
-  cardMesh.rotation.y += (targetRotationY - cardMesh.rotation.y) * 0.08;
+  // 卡牌日常悬浮与轻微呼吸摆动
+  cardMesh.position.y = Math.sin(elapsedTime * 2.2) * 0.08;
+  cardMesh.rotation.x = Math.sin(elapsedTime * 1.5) * 0.04;
+
+  // 平滑插值翻转动画 (Lerp)
+  cardMesh.rotation.y += (targetRotationY - cardMesh.rotation.y) * 0.09;
 
   renderer.render(scene, camera);
 }
 animate();
 
-// 8. 窗口缩放适配
+// --- 8. 窗口自适应 ---
 window.addEventListener('resize', () => {
   const newH = Math.round(LOW_RES_WIDTH * (window.innerHeight / window.innerWidth));
   renderer.setSize(LOW_RES_WIDTH, newH, false);
