@@ -49,3 +49,15 @@ Because the application utilizes Three.js to load external image textures (`asse
 ---
 
 ## Known Limitations
+
+1. **Browser Autoplay & AudioContext Gesture Policies:**:
+   - Due to modern browser security and user privacy restrictions (Google Chrome & Apple Safari autoplay policies), audio streams and the Web Audio API cannot start playback automatically upon initial page load.
+   - Users must explicitly interact with the interface (such as toggling the ♫ BGM button or clicking a card) to initialize the audio context and start sound playback.
+2. **Audio Format and Codec Compatibility**:
+   - The background music relies on the assets/bgm.m4a container (AAC codec), which is natively decoded across modern Chromium and WebKit browsers. However, legacy or minimalist Linux-based web environments lacking proprietary AAC decoders may require a fallback format such as standard MP3 or Ogg Vorbis.
+3. **Mobile Touch Drag Calibration**:
+   - While pointer events unify mouse and touch gestures, the drag coefficient and linear damping curves are primarily calibrated for desktop mouse dragging. On ultra-high-refresh-rate mobile touchscreens (120Hz ProMotion displays), rapid swipe gestures may feel slightly more sensitive.
+4. **Client-Side Pseudo-Randomness**:
+   - Card selection relies entirely on client-side pseudo-random number generation (Math.random()). It currently lacks advanced backend card-deck shuffling algorithms, such as the Fisher-Yates shuffle with state persistence or cooldown exclusion against immediate card repetition.
+5. **Fixed Pixel Buffer Scaling on Extreme Viewports**:
+   - The retro PS1 low-poly visual aesthetic is achieved by downsampling the 3D WebGL render target to a fixed resolution (LOW_RES_WIDTH = 380px) followed by nearest-neighbor upscaling. On ultra-wide monitors or rotated vertical mobile screens, the aspect ratio calculation may cause the letterbox framing to vary slightly.
