@@ -134,19 +134,29 @@ body {
   cursor: not-allowed;
 }
 
+/* 牌意解读框：下移至卡牌下方 */
 .reading-box {
-  background: rgba(10, 5, 30, 0.88);
-  border: 3px solid #00ffff;
-  box-shadow: 6px 6px 0px #ff007f;
-  padding: 16px 20px;
-  max-width: 420px;
+  position: absolute;
+  top: auto;
+  bottom: 125px; /* 位于底部输入框和按钮的上方 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 440px;
+  background: rgba(10, 7, 32, 0.92);
+  border: 2px solid #00ffcc;
+  box-shadow: 0 0 16px rgba(0, 255, 204, 0.35), inset 0 0 8px rgba(255, 0, 128, 0.4);
+  padding: 12px 16px;
   text-align: center;
-  color: #fff;
-  margin-bottom: 20px;
+  z-index: 20;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .reading-box.hidden {
-  display: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(15px);
+  pointer-events: none;
 }
 
 .badge {
