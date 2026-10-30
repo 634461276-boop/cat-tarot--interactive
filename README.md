@@ -13,7 +13,7 @@ This project explores the intersection between **digital nostalgia** and **heali
 
 ---
 
-## 🎯 Target Audience
+## Target Audience
 
 * **Digital Nostalgia & Y2K Enthusiasts**: Gamers and creators passionate about early 2000s visual styles, vaporwave, retro gaming consoles, and pixel art.
 * **Casual Tarot & Cat Lovers**: Individuals seeking brief, comforting emotional breaks, playful daily mindfulness readings, or light creative inspiration during busy routines.
