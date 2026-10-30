@@ -226,3 +226,32 @@ body, html {
   border-color: #ffffff !important;
   animation: pulse-glow 1.2s infinite alternate;
 }
+/* 右上角复古声音切换按钮 */
+.pixel-sound-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #120e2e;
+  color: #00ffcc;
+  border: 2px solid #00ffcc;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 6px 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #ff007f;
+  pointer-events: auto;
+  transition: all 0.1s;
+  z-index: 30;
+}
+
+.pixel-sound-btn:hover {
+  background: #00ffcc;
+  color: #000000;
+  box-shadow: 3px 3px 0px #ff007f;
+}
+
+.pixel-sound-btn.playing {
+  color: #ffe600;
+  border-color: #ffe600;
+  box-shadow: 0 0 8px #ffe600;
+}
