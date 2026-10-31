@@ -72,7 +72,7 @@ Because the application utilizes Three.js to load external image textures (`asse
 | ![Accordion Fan Spread](assets/screenshot_spread.png) | ![Card Centered](assets/screenshot_picked.png) | ![Reading Result](assets/screenshot_result.png) |
 
 ### 2. Live Demo URL
-* **GitHub Pages**: `https://<your-github-username>.github.io/cat-tarot-interactive/`  
+* **GitHub Pages**: `https://634461276-boop.github.io/cat-tarot--interactive/`  
   *(Deployment Guide: Go to GitHub Repo -> Settings -> Pages -> Select `main` branch / root `/` -> Click Save)*
 
 ### 3. Screen Recording Demonstration
