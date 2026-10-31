@@ -62,3 +62,19 @@ Because the application utilizes Three.js to load external image textures (`asse
 5. **Fixed Pixel Buffer Scaling on Extreme Viewports**:
    - The retro PS1 low-poly visual aesthetic is achieved by downsampling the 3D WebGL render target to a fixed resolution (LOW_RES_WIDTH = 380px) followed by nearest-neighbor upscaling. On ultra-wide monitors or rotated vertical mobile screens, the aspect ratio calculation may cause the letterbox framing to vary slightly.
 
+
+## Screenshots & Live Demo
+
+### 1. Visual Walkthrough
+
+| 1. Accordion Fan Spread & BGM Toggle | 2. Centered Card Ready to Draw | 3. Flip Reveal & Reading Panel |
+| :---: | :---: | :---: |
+| ![Accordion Fan Spread](assets/screenshot_spread.png) | ![Card Centered](assets/screenshot_picked.png) | ![Reading Result](assets/screenshot_result.png) |
+
+### 2. Live Demo URL
+* **GitHub Pages**: `https://<your-github-username>.github.io/cat-tarot-interactive/`  
+  *(Deployment Guide: Go to GitHub Repo -> Settings -> Pages -> Select `main` branch / root `/` -> Click Save)*
+
+### 3. Screen Recording Demonstration
+* **Video Demo**: [Watch / Download Demonstration Video (assets/demo_video.mp4)](assets/demo_video.mp4)  
+  *(A short 15–30 second recording demonstrating deck swiping, BGM audio toggle, tactile 8-bit click feedback, question input, flip chord arpeggios, and deck reset)*
