@@ -58,5 +58,23 @@ During mid-stage development, I conducted qualitative walkthrough evaluations wi
 * **User Insight 2: Interaction Flow Dead-End**
   * *Feedback*: Evaluators reported momentary confusion after completing an interpretation, lacking an obvious way to initiate another draw without refreshing the browser.
   * *Iteration*: Added an animated `RESET` button beneath the interpretation panel, complete with an arpeggiated shuffle sound effect and card flip-back transition to close the loop.
-  
+
+---
+
+## 5. Contributors & Development History
+
+### A. Sole Contributor
+* **ZHOU Xuantong (Sole Contributor & Developer)**:
+  * Complete, independent ownership of the project: concept formulation, narrative worldbuilding, Three.js 3D interactive graphics implementation, procedural audio and BGM synthesis, user interface design, user testing, deployment, and technical documentation.
+
+### B. Commit History Milestones
+Project evolution was maintained via incremental, traceable version control commits:
+1. `feat: add initial project structure and basic 3D card layout` — Core Three.js scene setup, perspective camera, and lighting.
+2. `feat: enhance UI style with Y2K retro cyberpunk aesthetics` — CRT scanline overlay, pixel borders, and neon visual styling.
+3. `feat: adjust card positions and accordion fan spread algorithm` — Implementation of radial arc positioning and pointer-drag lerp physics.
+4. `feat: reposition reading panel below cards to prevent overlapping` — Spatial layout refactor separating 3D cards from dynamic typography.
+5. `feat: add retro sound effects via Web Audio API & BGM integration` — Native Web Audio synthesizer integration and audio management.
+6. `docs: add detailed interaction and design concept documentation` — Bilingual specification documents and UX rationale.
+7. `docs: add screenshots and compressed demo video` — Video payload compression and multi-step walkthrough visual documentation.
+
 ---
