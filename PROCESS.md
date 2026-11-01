@@ -45,3 +45,18 @@ Throughout the end-to-end development of this project, I integrated a multi-tool
 * **Rationale for Modification / Rejection**:
   1. **Payload & Performance**: Loading external asset meshes would introduce noticeable network latency and initial load friction, compromising the lightweight, instant-launch nature of a web experience.
   2. **Stylistic Cohesion**: Overly intricate 3D spatial dynamics threatened to distract from the meditative intimacy intrinsic to flat tarot card divination. I dismissed the heavy rigid-body simulation in favor of procedural Three.js `PlaneGeometry` rotations driven by smooth linear interpolation (`Lerp`), preserving optimal runtime performance and reinforcing the tactical nostalgia of physical digital cards.
+  
+  ---
+
+## 4. User Testing & Feedback Loop
+
+During mid-stage development, I conducted qualitative walkthrough evaluations with three users (an interaction design peer and a tarot enthusiast):
+
+* **User Insight 1: Touch Inertia Overshoot**
+  * *Feedback*: On high-refresh mobile displays, lateral drag gestures moved the card arc excessively fast, occasionally pushing the fan out of view.
+  * *Iteration*: Integrated drag damping friction and viewport clamping boundaries, ensuring the fan spread remains comfortably visible across all input velocities.
+* **User Insight 2: Interaction Flow Dead-End**
+  * *Feedback*: Evaluators reported momentary confusion after completing an interpretation, lacking an obvious way to initiate another draw without refreshing the browser.
+  * *Iteration*: Added an animated `RESET` button beneath the interpretation panel, complete with an arpeggiated shuffle sound effect and card flip-back transition to close the loop.
+  
+---
