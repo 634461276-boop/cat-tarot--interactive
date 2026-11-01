@@ -78,3 +78,21 @@ Project evolution was maintained via incremental, traceable version control comm
 7. `docs: add screenshots and compressed demo video` — Video payload compression and multi-step walkthrough visual documentation.
 
 ---
+
+## 6. Acknowledgements & References
+
+This project adheres to academic integrity and open-source standards. Borrowed libraries, reference algorithms, and media assets are declared below:
+
+### A. Libraries & Frameworks
+* **Three.js (r128)**: WebGL 3D rendering pipeline and spatial matrix math (Licensed under the MIT License).
+* **Web Audio API**: Native browser interface utilized for runtime sound synthesis without external audio files.
+
+### B. Media & Visual Assets
+* **Card Face & Back Textures (`assets/*.jpg`)**:
+  * Visual concepts generated using Midjourney, followed by manual downsampling, color grading, and texture packaging in Photoshop to achieve low-fidelity pixel fidelity.
+* **Background Soundtrack (`assets/bgm.m4a`)**:
+  * Ambient synthwave track used under Creative Commons (CC BY 4.0) licensing for non-commercial educational demonstrations.
+
+### C. Algorithmic References
+* The radial accordion spread was adapted from parametric arc calculations in computer graphics literature (Archimedean Arc Distribution).
+* Pointer movement smoothing utilizes standard linear interpolation (`Lerp: Current += (Target - Current) * Factor`).
